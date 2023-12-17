@@ -1,0 +1,29 @@
+parameters:
+  - name: user
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+responses:
+  '201':
+    description: User created successfully
+    examples:
+      application/json:
+        success: true
+        message: User created successfully!
+        data:
+          id: 1
+          username: example
+          email: example@example.com
+  '409':
+    description: User already exists
+    examples:
+      application/json:
+        success: false
+        message: User already exists!
+        error_code: "USER_ALREADY_EXISTS"

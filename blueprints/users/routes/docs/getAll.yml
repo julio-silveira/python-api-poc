@@ -1,0 +1,11 @@
+responses:
+  '200':
+    description: Users retrieved successfully
+    examples:
+      application/json:
+        success: true
+        message: Users retrieved successfully!
+        data:
+          - id: 1
+            username: example
+            email: example@example.com

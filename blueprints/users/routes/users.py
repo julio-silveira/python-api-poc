@@ -5,12 +5,14 @@ from blueprints.users.schemas.UserSchema import UserSchema
 from blueprints.users.services.UsersService import UsersService
 from extensions.database import db
 from infraestructure.response import Response
+from flasgger import swag_from
 
 
 bp_users = Blueprint("user", __name__, url_prefix="/users")
 
 
-@bp_users.get("/")
+@bp_users.get("")
+@swag_from("docs/getAll.yml")
 def getAll():
     users_service = UsersService(db)
     users = users_service.get_all()
@@ -21,6 +23,7 @@ def getAll():
 
 
 @bp_users.get("/<int:id>")
+@swag_from("docs/getOne.yml")
 def getById(id: int):
     if not id:
         raise RequiredIdException()
@@ -33,7 +36,8 @@ def getById(id: int):
     ).success()
 
 
-@bp_users.post("/")
+@bp_users.post("")
+@swag_from("docs/create.yml")
 def create():
     data = request.get_json()
     user_schema = UserSchema()
@@ -54,6 +58,7 @@ def create():
 
 
 @bp_users.put("/<int:id>")
+@swag_from("docs/update.yml")
 def update(id: int):
     if not id:
         raise RequiredIdException()
@@ -69,6 +74,7 @@ def update(id: int):
 
 
 @bp_users.delete("/<int:id>")
+@swag_from("docs/delete.yml")
 def delete(id: int):
     if not id:
         raise RequiredIdException()

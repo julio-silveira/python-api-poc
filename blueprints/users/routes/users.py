@@ -1,5 +1,5 @@
-from flask import Blueprint, jsonify, request
-from marshmallow import ValidationError
+from flask import Blueprint, request
+from blueprints.users.exceptions.RequiredId import RequiredIdException
 from blueprints.users.exceptions.UserAlreadyExists import UserAlreadyExistsException
 from blueprints.users.schemas.UserSchema import UserSchema
 from blueprints.users.services.UsersService import UsersService
@@ -23,7 +23,7 @@ def getAll():
 @bp_users.get("/<int:id>")
 def getById(id: int):
     if not id:
-        raise ValidationError("Id is required!")
+        raise RequiredIdException()
 
     users_service = UsersService(db)
     user = users_service.get_by_id_or_raise(id)
@@ -55,6 +55,9 @@ def create():
 
 @bp_users.put("/<int:id>")
 def update(id: int):
+    if not id:
+        raise RequiredIdException()
+
     data = request.get_json()
     user_schema = UserSchema()
     user = user_schema.load(data)
@@ -68,7 +71,7 @@ def update(id: int):
 @bp_users.delete("/<int:id>")
 def delete(id: int):
     if not id:
-        raise ValidationError("Id is required!")
+        raise RequiredIdException()
 
     users_service = UsersService(db)
     users_service.delete(id)

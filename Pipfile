@@ -11,6 +11,7 @@ flasgger = "*"
 python-dotenv = "*"
 black = "*"
 pymysql = "*"
+alembic = "*"
 
 [dev-packages]
 
